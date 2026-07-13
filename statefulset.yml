@@ -1,10 +1,13 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: db240
+  name: mysql
+
 spec:
-  serviceName: db-service
+  serviceName: mysqldb
+
   replicas: 1
+
   selector:
     matchLabels:
       app: db
@@ -13,38 +16,42 @@ spec:
     metadata:
       labels:
         app: db
+
     spec:
       containers:
-        - name: db-cont
-          image: ashraysambu/k8s2:dbimg
-          imagePullPolicy: IfNotPresent
+        - name: dbcont
+          image: shaikmustafa/phpapp:dbimage
 
           ports:
             - containerPort: 3306
+              name: mysql
 
           envFrom:
             - secretRef:
-                name: app-secret
+                name: 
 
           resources:
             requests:
               cpu: "100m"
               memory: "128Mi"
             limits:
-              cpu: "1"
-              memory: "1Gi"
+              cpu: "200m"
+              memory: "256Mi"
 
           volumeMounts:
-            - name: db-storage
-              mountPath: /var/lib/mysql
+            - name: mysql-data
+              mountPath: /usr/share/nginx/html/
 
   volumeClaimTemplates:
     - metadata:
-        name: db-storage
+        name: mysql-data
+
       spec:
-        storageClassName: gp2
         accessModes:
           - ReadWriteOnce
+
+        storageClassName: gp2
+
         resources:
           requests:
             storage: 2Gi
