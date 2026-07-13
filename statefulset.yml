@@ -16,7 +16,7 @@ spec:
     spec:
       containers: 
         - name: db-cont
-          image: 
+          image: ashraysambu/k8s2:dbimg
           ports:
             - containerPort: 3306
           
