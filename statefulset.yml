@@ -33,7 +33,7 @@ spec:
 
           volumeMounts:
             - name: db-storage
-              mountPath: /var/lib/mysql
+              mountPath: /usr/share/nginx/html/
     
     volumeClaimTemplates:
           - metadata:
