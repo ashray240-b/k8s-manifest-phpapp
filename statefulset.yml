@@ -28,7 +28,7 @@ spec:
 
           envFrom:
             - secretRef:
-                name: 
+                name: app-secret
 
           resources:
             requests:
