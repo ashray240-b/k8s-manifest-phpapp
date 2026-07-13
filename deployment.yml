@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: app-cont
-          image: 
+          image: ashraysambu/k8s2:appimg
           ports:
             - containerPort: 80
           
