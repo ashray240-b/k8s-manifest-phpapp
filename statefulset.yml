@@ -4,7 +4,7 @@ metadata:
   name: db240
 spec:
   serviceName: db-service
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: db
