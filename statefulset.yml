@@ -4,25 +4,26 @@ kind: StatefulSet
 metadata:
   name: db240
 spec:
-  serviceName: "db-service"
+  serviceName: db-service
   replicas: 3
   selector:
     matchLabels:
       app: db
   template:
-    metadata: 
+    metadata:
       labels:
         app: db
     spec:
-      containers: 
+      containers:
         - name: db-cont
           image: ashraysambu/k8s2:dbimg
           ports:
             - containerPort: 3306
-          
-          envfrom:
+
+          envFrom:
             - secretRef:
                 name: app-secret
+
           resources:
             requests:
               cpu: "100m"
@@ -33,14 +34,15 @@ spec:
 
           volumeMounts:
             - name: db-storage
-              mountPath: /usr/share/nginx/html/
-    
-    volumeClaimTemplates:
-          - metadata:
-              name: db-storage
-              StorageClassName: gp2
-            spec:
-              accessModes: ["ReadWriteOnce"]
-              resources:
-                requests:
-                  storage: 2Gi
+              mountPath: /var/lib/mysql
+
+  volumeClaimTemplates:
+    - metadata:
+        name: db-storage
+      spec:
+        storageClassName: gp2
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 2Gi
