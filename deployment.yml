@@ -1,0 +1,46 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app240
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: dee
+  template:
+    metadata:
+      labels:
+        app: dee
+    spec:
+      containers:
+        - name: app-cont
+          image: 
+          ports:
+            - containerPort: 80
+          
+          livenessProbe:
+            httpGet:
+             path: /
+             port: 80
+             initialDelaySeconds: 20
+             periodSeconds: 3
+
+          readinessProbe:
+            httpGet:
+             path: /
+             port: 80
+             initialDelaySeconds: 10
+             periodSeconds: 5      
+          
+          envFrom:
+            - configMapRef:
+                name: app-config
+          
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "1"
+              memory: "1Gi"
